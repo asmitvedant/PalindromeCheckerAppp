@@ -1,101 +1,49 @@
-
-
-import java.util.Scanner;
-
 public class PalindromeCheckerApp {
 
-    // Node class for Singly Linked List
-    static class Node {
-        char data;
-        Node next;
+    public static boolean normalCheck(String input) {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+        int left = 0;
+        int right = input.length() - 1;
 
-    // ================= UC8 LOGIC =================
-    public static boolean checkPalindromeUsingLinkedList(String input) {
-
-        // Convert string to linked list
-        Node head = null, tail = null;
-
-        for (char c : input.toCharArray()) {
-            Node newNode = new Node(c);
-
-            if (head == null) {
-                head = tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        // Fast & Slow pointer to find middle
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Reverse second half
-        Node prev = null;
-        Node curr = slow;
-
-        while (curr != null) {
-            Node nextTemp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = nextTemp;
-        }
-
-        // Compare both halves
-        Node firstHalf = head;
-        Node secondHalf = prev;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
+        while (left < right) {
+            if (input.charAt(left) != input.charAt(right))
                 return false;
-            }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
+
+            left++;
+            right--;
         }
 
         return true;
     }
 
-    // ================= MAIN METHOD =================
+    public static boolean recursiveCheck(String str, int start, int end) {
+
+        if (start >= end)
+            return true;
+
+        if (str.charAt(start) != str.charAt(end))
+            return false;
+
+        return recursiveCheck(str, start + 1, end - 1);
+    }
+
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        String input = "racecar";
 
-        System.out.println("Palindrome Checker Application");
-        System.out.println("1. UC8 - Linked List Based Palindrome Check");
-        System.out.print("Enter your choice: ");
+        long start1 = System.nanoTime();
+        boolean result1 = normalCheck(input);
+        long end1 = System.nanoTime();
 
-        int choice = sc.nextInt();
-        sc.nextLine(); // consume newline
+        long start2 = System.nanoTime();
+        boolean result2 = recursiveCheck(input, 0, input.length() - 1);
+        long end2 = System.nanoTime();
 
-        switch (choice) {
+        System.out.println("Input : " + input);
+        System.out.println("Normal Result : " + result1);
+        System.out.println("Recursive Result : " + result2);
 
-            case 1:
-                System.out.print("Enter input string: ");
-                String input = sc.nextLine();
-
-                boolean result =
-                        checkPalindromeUsingLinkedList(input.toLowerCase());
-
-                System.out.println("Input : " + input);
-                System.out.println("Is Palindrome? : " + result);
-                break;
-
-            default:
-                System.out.println("Invalid Choice");
-        }
-
-        sc.close();
+        System.out.println("Normal Time (ns): " + (end1 - start1));
+        System.out.println("Recursive Time (ns): " + (end2 - start2));
     }
 }
