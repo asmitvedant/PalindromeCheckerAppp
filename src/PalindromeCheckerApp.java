@@ -1,63 +1,37 @@
-import java.util.Scanner;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
-public class PalindromeCheckerApp {
-
-    public static boolean iterativeCheck(String input) {
-
-        int left = 0;
-        int right = input.length() - 1;
-
-        while (left < right) {
-
-            if (input.charAt(left) != input.charAt(right)) {
-                return false;
-            }
-
-            left++;
-            right--;
-        }
-
-        return true;
-    }
-
-    public static boolean recursiveCheck(String str, int start, int end) {
-
-        if (start >= end) {
-            return true;
-        }
-
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        return recursiveCheck(str, start + 1, end - 1);
-    }
+public class UseCase7PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        // Define the input string
+        String input = "level";
 
-        System.out.println("Palindrome Checker Application");
-        System.out.println("UC13 - Performance Comparison");
+        // Create a Deque to store characters
+        Deque<Character> deque = new ArrayDeque<>();
 
-        System.out.print("Enter input string: ");
-        String input = sc.nextLine();
+        // Add each character to the deque
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
+        }
 
-        long start1 = System.nanoTime();
-        boolean iterativeResult = iterativeCheck(input);
-        long end1 = System.nanoTime();
+        boolean isPalindrome = true;
 
-        long start2 = System.nanoTime();
-        boolean recursiveResult =
-                recursiveCheck(input, 0, input.length() - 1);
-        long end2 = System.nanoTime();
+        // Compare front and rear characters
+        while (deque.size() > 1) {
 
-        System.out.println("Iterative Result : " + iterativeResult);
-        System.out.println("Recursive Result : " + recursiveResult);
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
 
-        System.out.println("Iterative Time : " + (end1 - start1));
-        System.out.println("Recursive Time : " + (end2 - start2));
+            if (first != last) {
+                isPalindrome = false;
+                break;
+            }
+        }
 
-        sc.close();
+        // Output
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
