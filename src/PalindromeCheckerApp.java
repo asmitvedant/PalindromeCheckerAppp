@@ -1,49 +1,40 @@
+import java.util.Scanner;
+
 public class PalindromeCheckerApp {
 
-    public static boolean normalCheck(String input) {
+    // Recursive palindrome check
+    public static boolean isPalindromeRecursive(String str, int start, int end) {
 
-        int left = 0;
-        int right = input.length() - 1;
-
-        while (left < right) {
-            if (input.charAt(left) != input.charAt(right))
-                return false;
-
-            left++;
-            right--;
+        if (start >= end) {
+            return true;
         }
 
-        return true;
-    }
-
-    public static boolean recursiveCheck(String str, int start, int end) {
-
-        if (start >= end)
-            return true;
-
-        if (str.charAt(start) != str.charAt(end))
+        if (str.charAt(start) != str.charAt(end)) {
             return false;
+        }
 
-        return recursiveCheck(str, start + 1, end - 1);
+        return isPalindromeRecursive(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
 
-        String input = "racecar";
+        Scanner sc = new Scanner(System.in);
 
-        long start1 = System.nanoTime();
-        boolean result1 = normalCheck(input);
-        long end1 = System.nanoTime();
+        System.out.println("Palindrome Checker Application");
+        System.out.println("UC9 - Recursive Palindrome Check");
 
-        long start2 = System.nanoTime();
-        boolean result2 = recursiveCheck(input, 0, input.length() - 1);
-        long end2 = System.nanoTime();
+        System.out.print("Enter input string: ");
+        String input = sc.nextLine();
+
+        boolean result = isPalindromeRecursive(
+                input.toLowerCase(),
+                0,
+                input.length() - 1
+        );
 
         System.out.println("Input : " + input);
-        System.out.println("Normal Result : " + result1);
-        System.out.println("Recursive Result : " + result2);
+        System.out.println("Is Palindrome? : " + result);
 
-        System.out.println("Normal Time (ns): " + (end1 - start1));
-        System.out.println("Recursive Time (ns): " + (end2 - start2));
+        sc.close();
     }
 }
