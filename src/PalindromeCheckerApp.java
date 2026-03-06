@@ -2,42 +2,35 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    interface PalindromeStrategy {
-        boolean check(String input);
-    }
+    public static boolean iterativeCheck(String input) {
 
-    static class SimpleStrategy implements PalindromeStrategy {
+        int left = 0;
+        int right = input.length() - 1;
 
-        public boolean check(String input) {
+        while (left < right) {
 
-            int left = 0;
-            int right = input.length() - 1;
-
-            while (left < right) {
-
-                if (input.charAt(left) != input.charAt(right)) {
-                    return false;
-                }
-
-                left++;
-                right--;
+            if (input.charAt(left) != input.charAt(right)) {
+                return false;
             }
 
-            return true;
+            left++;
+            right--;
         }
+
+        return true;
     }
 
-    static class PalindromeContext {
+    public static boolean recursiveCheck(String str, int start, int end) {
 
-        private PalindromeStrategy strategy;
-
-        public PalindromeContext(PalindromeStrategy strategy) {
-            this.strategy = strategy;
+        if (start >= end) {
+            return true;
         }
 
-        public boolean execute(String input) {
-            return strategy.check(input);
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
         }
+
+        return recursiveCheck(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
@@ -45,18 +38,25 @@ public class PalindromeCheckerApp {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Palindrome Checker Application");
-        System.out.println("UC12 - Strategy Pattern");
+        System.out.println("UC13 - Performance Comparison");
 
         System.out.print("Enter input string: ");
         String input = sc.nextLine();
 
-        PalindromeContext context =
-                new PalindromeContext(new SimpleStrategy());
+        long start1 = System.nanoTime();
+        boolean iterativeResult = iterativeCheck(input);
+        long end1 = System.nanoTime();
 
-        boolean result = context.execute(input.toLowerCase());
+        long start2 = System.nanoTime();
+        boolean recursiveResult =
+                recursiveCheck(input, 0, input.length() - 1);
+        long end2 = System.nanoTime();
 
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + result);
+        System.out.println("Iterative Result : " + iterativeResult);
+        System.out.println("Recursive Result : " + recursiveResult);
+
+        System.out.println("Iterative Time : " + (end1 - start1));
+        System.out.println("Recursive Time : " + (end2 - start2));
 
         sc.close();
     }
