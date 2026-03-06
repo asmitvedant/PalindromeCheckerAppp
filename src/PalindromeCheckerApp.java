@@ -2,25 +2,25 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    public static boolean checkPalindromeIgnoreCaseAndSpaces(String input) {
+    static class PalindromeService {
 
-        // remove spaces and convert to lowercase
-        input = input.replaceAll("\\s+", "").toLowerCase();
+        public boolean isPalindrome(String input) {
 
-        int left = 0;
-        int right = input.length() - 1;
+            int left = 0;
+            int right = input.length() - 1;
 
-        while (left < right) {
+            while (left < right) {
 
-            if (input.charAt(left) != input.charAt(right)) {
-                return false;
+                if (input.charAt(left) != input.charAt(right)) {
+                    return false;
+                }
+
+                left++;
+                right--;
             }
 
-            left++;
-            right--;
+            return true;
         }
-
-        return true;
     }
 
     public static void main(String[] args) {
@@ -28,12 +28,14 @@ public class PalindromeCheckerApp {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Palindrome Checker Application");
-        System.out.println("UC10 - Ignore Case and Spaces");
+        System.out.println("UC11 - OOP Palindrome Service");
 
         System.out.print("Enter input string: ");
         String input = sc.nextLine();
 
-        boolean result = checkPalindromeIgnoreCaseAndSpaces(input);
+        PalindromeService service = new PalindromeService();
+
+        boolean result = service.isPalindrome(input.toLowerCase());
 
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + result);
