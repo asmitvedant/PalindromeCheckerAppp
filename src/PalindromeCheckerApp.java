@@ -2,9 +2,13 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    static class PalindromeService {
+    interface PalindromeStrategy {
+        boolean check(String input);
+    }
 
-        public boolean isPalindrome(String input) {
+    static class SimpleStrategy implements PalindromeStrategy {
+
+        public boolean check(String input) {
 
             int left = 0;
             int right = input.length() - 1;
@@ -23,19 +27,33 @@ public class PalindromeCheckerApp {
         }
     }
 
+    static class PalindromeContext {
+
+        private PalindromeStrategy strategy;
+
+        public PalindromeContext(PalindromeStrategy strategy) {
+            this.strategy = strategy;
+        }
+
+        public boolean execute(String input) {
+            return strategy.check(input);
+        }
+    }
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Palindrome Checker Application");
-        System.out.println("UC11 - OOP Palindrome Service");
+        System.out.println("UC12 - Strategy Pattern");
 
         System.out.print("Enter input string: ");
         String input = sc.nextLine();
 
-        PalindromeService service = new PalindromeService();
+        PalindromeContext context =
+                new PalindromeContext(new SimpleStrategy());
 
-        boolean result = service.isPalindrome(input.toLowerCase());
+        boolean result = context.execute(input.toLowerCase());
 
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + result);
