@@ -2,18 +2,25 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    // Recursive palindrome check
-    public static boolean isPalindromeRecursive(String str, int start, int end) {
+    public static boolean checkPalindromeIgnoreCaseAndSpaces(String input) {
 
-        if (start >= end) {
-            return true;
+        // remove spaces and convert to lowercase
+        input = input.replaceAll("\\s+", "").toLowerCase();
+
+        int left = 0;
+        int right = input.length() - 1;
+
+        while (left < right) {
+
+            if (input.charAt(left) != input.charAt(right)) {
+                return false;
+            }
+
+            left++;
+            right--;
         }
 
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        return isPalindromeRecursive(str, start + 1, end - 1);
+        return true;
     }
 
     public static void main(String[] args) {
@@ -21,16 +28,12 @@ public class PalindromeCheckerApp {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Palindrome Checker Application");
-        System.out.println("UC9 - Recursive Palindrome Check");
+        System.out.println("UC10 - Ignore Case and Spaces");
 
         System.out.print("Enter input string: ");
         String input = sc.nextLine();
 
-        boolean result = isPalindromeRecursive(
-                input.toLowerCase(),
-                0,
-                input.length() - 1
-        );
+        boolean result = checkPalindromeIgnoreCaseAndSpaces(input);
 
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + result);
