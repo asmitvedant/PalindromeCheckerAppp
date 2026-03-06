@@ -5,17 +5,14 @@ public class PalindromeCheckerApp {
     // Recursive palindrome check
     public static boolean isPalindromeRecursive(String str, int start, int end) {
 
-        // Base condition
         if (start >= end) {
             return true;
         }
 
-        // If characters don't match
         if (str.charAt(start) != str.charAt(end)) {
             return false;
         }
 
-        // Recursive call
         return isPalindromeRecursive(str, start + 1, end - 1);
     }
 
@@ -24,28 +21,19 @@ public class PalindromeCheckerApp {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Palindrome Checker Application");
-        System.out.println("1. UC9 - Recursive Palindrome Check");
-        System.out.print("Enter your choice: ");
+        System.out.println("UC9 - Recursive Palindrome Check");
 
-        int choice = sc.nextInt();
-        sc.nextLine();
+        System.out.print("Enter input string: ");
+        String input = sc.nextLine();
 
-        switch (choice) {
+        boolean result = isPalindromeRecursive(
+                input.toLowerCase(),
+                0,
+                input.length() - 1
+        );
 
-            case 1:
-                System.out.print("Enter input string: ");
-                String input = sc.nextLine();
-
-                boolean result =
-                        isPalindromeRecursive(input.toLowerCase(), 0, input.length() - 1);
-
-                System.out.println("Input : " + input);
-                System.out.println("Is Palindrome? : " + result);
-                break;
-
-            default:
-                System.out.println("Invalid Choice");
-        }
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + result);
 
         sc.close();
     }
